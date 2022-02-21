@@ -1,53 +1,64 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var $ingredients array */
+
+use yii\bootstrap4\ActiveForm;
 
 $this->title = 'My Yii Application';
 ?>
-<div class="site-index">
-
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+<div id="app" ingredients='<?= json_encode($ingredients) ?>' found_foods='<?= json_encode($found_foods) ?>'>
+    <div>
+        <div class="text-center display-4">
+            Find foods by ingredients
+        </div>
+        <?php $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'layout' => 'horizontal',
+        ]); ?>
+        <ul>
+            <li v-for="ingredient in ingredients" key="index">
+                <input name="ingredients[]" type="checkbox" :value="ingredient.id" />
+                {{ ingredient.name }}
+            </li>
+        </ul>
+        <input type="submit" value="Find">
+        <?php ActiveForm::end(); ?>
     </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+    <div class="text-center display-4">
+        <?= $message ?>
+    </div>
+    <div v-if='found_foods===null'></div>
+    <div v-else-if='found_foods.length===0'>
+        <div class="text-center display-4">
+            Foods not found
+        </div>
+    </div>
+    <div v-else-if='found_foods.length>0'>
+        <div v-if='found_foods[0].not_found_ingredient_count==0'>
+            <div class="text-center display-4">
+                Full matched foods
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <ul v-for="food in found_foods">
+                <li v-if="food.not_found_ingredient_count==0">
+                    {{ food.name }}
+                </li>
+            </ul>
+        </div>
+        <div v-else-if='found_foods[0].found_ingredient_count>1'>
+            <div class="text-center display-4">
+                Partial matched foods
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <ul v-for="food in found_foods">
+                <li v-if="food.not_found_ingredient_count>1">
+                    {{ food.name }}
+                </li>
+            </ul>
+        </div>
+        <div v-else>
+            <div class="text-center display-4">
+                Matched foods not found
             </div>
         </div>
-
     </div>
 </div>

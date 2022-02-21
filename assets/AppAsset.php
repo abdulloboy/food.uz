@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -23,6 +24,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/app.js',
+        ['https://unpkg.com/vue@3', 'position' => \yii\web\View::POS_HEAD],
     ];
     public $depends = [
         'yii\web\YiiAsset',

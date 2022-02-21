@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Ingredients;
 
 class SiteController extends Controller
 {
@@ -61,7 +62,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $found_foods = null;
+        $message=null;
+        if ($this->request->isPost) {
+            if ($this->request->post('ingredients')) {
+                $found_foods = Ingredients::findFoods($this->request->post('ingredients'));
+            } else {
+                $message = "Select one or more ingredients";
+            }
+        }
+
+        return $this->render('index', [
+            'found_foods' => $found_foods,
+            'ingredients' => Ingredients::find()->with('foods')->orderBy('name')->asArray()->all(),
+            'message' => $message,
+        ]);
     }
 
     /**
