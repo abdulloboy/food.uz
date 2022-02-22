@@ -1,4 +1,5 @@
 <?php
+namespace app\modules\food\migrations;
 
 use yii\db\Migration;
 
@@ -23,7 +24,6 @@ class m220213_154252_seed_ingredients_table extends Migration
                 'ingredients',
                 [
                     'name' => $ingredient,
-                    'hidden' => false,
                 ]
             );
         }

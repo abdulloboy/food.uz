@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Food.uz',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -51,6 +52,11 @@ $config = [
             ],
         ],
         */
+    ],
+    'modules' => [
+        'food' => [
+            'class' => 'app\modules\food\Module',
+        ],
     ],
     'params' => $params,
 ];

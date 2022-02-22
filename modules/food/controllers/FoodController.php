@@ -1,9 +1,9 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\food\controllers;
 
-use app\models\Foods;
-use app\models\Ingredients;
+use app\modules\food\models\Foods;
+use app\modules\food\models\Ingredients;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

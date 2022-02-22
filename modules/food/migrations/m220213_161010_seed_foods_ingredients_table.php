@@ -1,4 +1,5 @@
 <?php
+namespace app\modules\food\migrations;
 
 use yii\db\Migration;
 
@@ -17,7 +18,6 @@ class m220213_161010_seed_foods_ingredients_table extends Migration
 
     private function insertFakeFoodIngredient()
     {
-        $faker = \Faker\Factory::create();
         for ($i = 1; $i <= 4; $i++) {
             $this->insert(
                 'foods_ingredients',

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\food\models;
 
 use Yii;
 

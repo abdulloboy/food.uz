@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\food\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property string|null $name
+ * @property int|null $hidden
  *
  * @property FoodsIngredients[] $foodsIngredients
  */
@@ -29,6 +30,7 @@ class Ingredients extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['hidden'], 'boolean'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -41,6 +43,7 @@ class Ingredients extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'hidden' => 'Hidden',
         ];
     }
 
@@ -63,7 +66,7 @@ class Ingredients extends \yii\db\ActiveRecord
     public static function findFoods($ingredients)
     {
         $foods = [];
-        if(!$ingredients) return [];
+        if (!$ingredients) return [];
         foreach ($ingredients as $ingredient) {
             $ing = self::find()->where(['id' => $ingredient])
                 ->with('foods.ingredients')->asArray()->one();
@@ -72,22 +75,29 @@ class Ingredients extends \yii\db\ActiveRecord
             }
         }
 
-        foreach ($foods as &$food) {
+        foreach ($foods as $key => &$food) {
+            $hidden = 0;
             $food['ingredient_count'] = count($food['ingredients']);
             $food['found_ingredient_count'] = 0;
             foreach ($food['ingredients'] as $ingredient) {
+                if ($ingredient['hidden'] == 1) {
+                    $hidden = 1;
+                }
                 if (in_array($ingredient['id'], $ingredients)) {
                     $food['found_ingredient_count']++;
                 }
             }
             $food['not_found_ingredient_count'] = $food['ingredient_count'] - $food['found_ingredient_count'];
+            if ($hidden) {
+                unset($foods[$key]);
+            }
         }
 
         usort($foods, function ($food1, $food2) {
-            if($food1['not_found_ingredient_count']===$food2['not_found_ingredient_count']){
+            if ($food1['not_found_ingredient_count'] === $food2['not_found_ingredient_count']) {
                 return 0;
             }
-            return ($food1['not_found_ingredient_count']<$food2['not_found_ingredient_count']) ? -1 : 1;
+            return ($food1['not_found_ingredient_count'] < $food2['not_found_ingredient_count']) ? -1 : 1;
         });
 
         return $foods;

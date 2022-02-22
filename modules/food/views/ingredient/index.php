@@ -1,10 +1,10 @@
 <?php
 
+use app\modules\food\models\Ingredients;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-use app\models\Ingredients;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
+            'hidden',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Ingredients $model, $key, $index, $column) {

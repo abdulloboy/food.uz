@@ -1,4 +1,5 @@
 <?php
+namespace app\modules\food\migrations;
 
 use yii\db\Migration;
 

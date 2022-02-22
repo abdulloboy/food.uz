@@ -27,6 +27,16 @@ $config = [
         ],
         'db' => $db,
     ],
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => null, // disable non-namespaced migrations if app\migrations is listed below
+            'migrationNamespaces' => [
+                'app\migrations', // Common migrations for the whole application
+                'app\modules\food\migrations', // Migrations for the specific project's module
+            ],
+        ],
+    ],
     'params' => $params,
     /*
     'controllerMap' => [
