@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\assets;
+namespace app\modules\food\assets;
 
 use yii\web\AssetBundle;
 
@@ -16,15 +16,18 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class ModuleAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/modules/food/web';
     public $css = [
+        'css/site.css',
     ];
     public $js = [
+        'js/app.js',
+        ['https://unpkg.com/vue@3', 'position' => \yii\web\View::POS_HEAD],
     ];
     public $depends = [
-        'app\modules\food\assets\ModuleAsset',
+        'yii\web\YiiAsset',
+        'yii\bootstrap4\BootstrapAsset',
     ];
 }
