@@ -37,3 +37,8 @@ public $depends = [
     ];
 ```
 
+5. Access the food module by web route 
+
+```php
+yourDomain.com?r=food
+```
